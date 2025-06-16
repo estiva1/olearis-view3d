@@ -1,0 +1,53 @@
+import View3D from "../View3D";
+import { OptionGetters } from "../type/utils";
+export interface AutoplayOptions {
+    delay: number;
+    delayOnMouseLeave: number;
+    speed: number;
+    pauseOnHover: boolean;
+    canInterrupt: boolean;
+    disableOnInterrupt: boolean;
+}
+declare class AutoPlayer implements OptionGetters<AutoplayOptions> {
+    private _delay;
+    private _delayOnMouseLeave;
+    private _speed;
+    private _pauseOnHover;
+    private _canInterrupt;
+    private _disableOnInterrupt;
+    private _view3D;
+    private _enabled;
+    private _interrupted;
+    private _interruptionTimer;
+    private _hovering;
+    get enabled(): boolean;
+    get animating(): boolean;
+    get delay(): number;
+    get delayOnMouseLeave(): number;
+    get speed(): number;
+    get pauseOnHover(): boolean;
+    get canInterrupt(): boolean;
+    get disableOnInterrupt(): boolean;
+    set delay(val: number);
+    set delayOnMouseLeave(val: number);
+    set speed(val: number);
+    set pauseOnHover(val: boolean);
+    set canInterrupt(val: boolean);
+    set disableOnInterrupt(val: boolean);
+    constructor(view3D: View3D, { delay, delayOnMouseLeave, speed, pauseOnHover, canInterrupt, disableOnInterrupt }?: Partial<AutoplayOptions>);
+    destroy(): void;
+    update(deltaTime: number): void;
+    enable(): void;
+    enableAfterDelay(): void;
+    disable(): void;
+    private _onMouseDown;
+    private _onMouseUp;
+    private _onTouchStart;
+    private _onTouchEnd;
+    private _onMouseEnter;
+    private _onMouseLeave;
+    private _onWheel;
+    private _setUninterruptedAfterDelay;
+    private _clearTimeout;
+}
+export default AutoPlayer;

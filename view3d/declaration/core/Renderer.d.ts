@@ -1,0 +1,54 @@
+import * as THREE from "three";
+import View3D from "../View3D";
+declare class Renderer {
+    private _view3D;
+    private _renderer;
+    private _canvas;
+    private _clock;
+    private _halfFloatAvailable;
+    private _renderQueued;
+    private _canvasSize;
+    private composer;
+    private renderPass;
+    private blendPass;
+    private _effectsOn;
+    get canvas(): HTMLCanvasElement;
+    get context(): WebGLRenderingContext;
+    get threeRenderer(): THREE.WebGLRenderer;
+    get defaultRenderLoop(): (delta: number) => void;
+    get size(): {
+        width: number;
+        height: number;
+    };
+    get canvasSize(): THREE.Vector2;
+    get capabilities(): {
+        halfFloat: boolean;
+        isWebGL2: boolean;
+        precision: string;
+        logarithmicDepthBuffer: boolean;
+        maxTextures: number;
+        maxVertexTextures: number;
+        maxTextureSize: number;
+        maxCubemapSize: number;
+        maxAttributes: number;
+        maxVertexUniforms: number;
+        maxVaryings: number;
+        maxFragmentUniforms: number;
+        vertexTextures: boolean;
+        floatFragmentTextures: boolean;
+        floatVertexTextures: boolean;
+    };
+    effectsOn(effects: boolean): void;
+    setBlenMixRatio(mixRatio: number): void;
+    constructor(view3D: View3D);
+    destroy(): void;
+    resize(): void;
+    setAnimationLoop(callback: (delta: number, frame?: THREE.XRFrame) => void): void;
+    stopAnimationLoop(): void;
+    renderSingleFrame(immediate?: boolean): void;
+    private _defaultRenderLoop;
+    private _renderFrame;
+    private _onContextLost;
+    private _onContextRestore;
+}
+export default Renderer;

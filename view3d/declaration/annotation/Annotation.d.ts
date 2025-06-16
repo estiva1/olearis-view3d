@@ -1,0 +1,61 @@
+import * as THREE from "three";
+import View3D from "../View3D";
+export interface AnnotationOptions {
+    element: HTMLElement | null;
+    focus: number[];
+    focusDuration: number;
+    focusOffset: number[];
+    baseFov: number;
+    baseDistance: number | null;
+}
+declare abstract class Annotation {
+    abstract position: THREE.Vector3;
+    protected _view3D: View3D;
+    protected _element: HTMLElement | null;
+    protected _focus: number[];
+    protected _focusDuration: number;
+    protected _focusOffset: number[];
+    protected _baseFov: number;
+    protected _baseDistance: number | null;
+    protected _enabled: boolean;
+    protected _hidden: boolean;
+    protected _focusing: boolean;
+    protected _tooltipSize: THREE.Vector2;
+    get element(): HTMLElement;
+    get renderable(): boolean;
+    get focusing(): boolean;
+    get focusPose(): number[];
+    get focusDuration(): number;
+    get focusOffset(): number[];
+    get baseFov(): number;
+    get baseDistance(): number | null;
+    get hidden(): boolean;
+    set focusDuration(val: number);
+    set baseFov(val: number);
+    set baseDistance(val: number | null);
+    constructor(view3D: View3D, { element, focus, focusDuration, focusOffset, baseFov, baseDistance }?: Partial<AnnotationOptions>);
+    abstract focus(): Promise<void>;
+    abstract unfocus(): void;
+    abstract toJSON(): Record<string, any>;
+    destroy(): void;
+    resize(): void;
+    render({ screenPos, screenSize, renderOrder }: {
+        position: THREE.Vector3;
+        screenPos: THREE.Vector2;
+        screenSize: THREE.Vector2;
+        renderOrder: number;
+    }): void;
+    show(): void;
+    hide(): void;
+    setOpacity(opacity: number): void;
+    enableEvents(): void;
+    disableEvents(): void;
+    handleUserInput(): void;
+    protected _getFocus(): THREE.Vector3;
+    protected _getPivotOffset(): THREE.Vector3;
+    protected _onClick: () => void;
+    protected _onWheel: (evt: WheelEvent) => void;
+    protected _onFocus(): void;
+    protected _onUnfocus(): void;
+}
+export default Annotation;

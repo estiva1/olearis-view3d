@@ -1,0 +1,42 @@
+import * as THREE from "three";
+import View3D from "../View3D";
+declare class ModelAnimator {
+    private _view3D;
+    private _mixer;
+    private _clips;
+    private _actions;
+    private _activeAnimationIdx;
+    private _timeScale;
+    private _fadePromises;
+    get clips(): THREE.AnimationClip[];
+    get mixer(): THREE.AnimationMixer;
+    get actions(): THREE.AnimationAction[];
+    get animationCount(): number;
+    get activeAnimation(): THREE.AnimationClip;
+    get activeAction(): THREE.AnimationAction;
+    get activeAnimationIndex(): number;
+    get paused(): boolean;
+    get animating(): boolean;
+    get timeScale(): number;
+    set timeScale(val: number);
+    constructor(view3D: View3D);
+    init(): void;
+    destroy(): void;
+    setClips(clips: THREE.AnimationClip[]): void;
+    play(index: number): void;
+    crossFade(index: number, duration: number, { synchronize }?: Partial<{
+        synchronize: boolean;
+    }>): Promise<boolean>;
+    fadeOut(duration: number): Promise<boolean>;
+    pause(): void;
+    resume(): void;
+    stop(): void;
+    update(delta: number): void;
+    updateRepeatMode(): void;
+    reset(): void;
+    private _restoreTimeScale;
+    private _flushFadePromises;
+    private _onAnimationLoop;
+    private _onAnimationFinished;
+}
+export default ModelAnimator;
